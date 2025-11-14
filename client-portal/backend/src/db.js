@@ -1,15 +1,16 @@
-// backend/src/db.js
-import dotenv from 'dotenv';
 import pkg from 'pg';
-dotenv.config();
-
 const { Pool } = pkg;
-export const pool = new Pool({
+
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: false
+  ssl: {
+    rejectUnauthorized: false, // Render requires this for SSL
+  },
 });
 
 export async function ping() {
-  const res = await pool.query('SELECT NOW() as now');
-  return res.rows[0].now;
+  const result = await pool.query('SELECT NOW()');
+  return result.rows[0];
 }
+
+export default pool;

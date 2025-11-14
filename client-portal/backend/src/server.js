@@ -1,4 +1,3 @@
-// backend/src/server.js
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -20,7 +19,8 @@ app.get('/health', async (req, res) => {
   try {
     const now = await ping();
     res.json({ status: 'ok', now });
-  } catch {
+  } catch (err) {
+    console.error('❌ Ping error:', err);
     res.status(500).json({ status: 'error' });
   }
 });
@@ -29,11 +29,11 @@ app.use('/auth', authRoutes);
 app.use('/me', meRoutes);
 app.use('/projects', projectRoutes);
 
-app.listen(port, "0.0.0.0", () => {
-  console.log(`API running on http://0.0.0.0:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`✅ API running on http://0.0.0.0:${port}`);
 });
 
 app.use((err, req, res, next) => {
-  console.error("❌ Server error:", err);
-  res.status(500).json({ error: "Internal Server Error" });
+  console.error('❌ Server error:', err);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
