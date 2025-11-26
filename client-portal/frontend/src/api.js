@@ -13,8 +13,7 @@ async function request(path, { method = 'GET', body, auth = false, useCredential
     const token = getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;
   }
-
-  // Debug logs (тимчасово — видалити/приглушити в проді)
+  
   console.groupCollapsed && console.groupCollapsed(`[API] ${method} ${path}`);
   console.log('[API] URL     ->', `${API_URL}${path}`);
   console.log('[API] Options ->', { method, auth, useCredentials });
@@ -36,8 +35,7 @@ async function request(path, { method = 'GET', body, auth = false, useCredential
     console.groupEnd && console.groupEnd();
     throw new Error(networkErr.message || 'Network error');
   }
-
-  // Лог сирого тіла відповіді (clone щоб не "з'їсти" стрім)
+  
   let rawText = '';
   try {
     rawText = await res.clone().text();
@@ -48,7 +46,6 @@ async function request(path, { method = 'GET', body, auth = false, useCredential
   console.log('[API] Raw body->', rawText);
 
   if (!res.ok) {
-    // Спробуємо парсити JSON помилку, але без падіння якщо не JSON
     let err = {};
     try {
       err = await res.json();
@@ -60,13 +57,11 @@ async function request(path, { method = 'GET', body, auth = false, useCredential
     throw new Error(err.error || `HTTP ${res.status}`);
   }
 
-  // Нема контенту
   if (res.status === 204) {
     console.groupEnd && console.groupEnd();
     return null;
   }
-
-  // Повернемо розпарсений JSON, або null якщо тіло пусте / некоректне
+  
   try {
     const json = await res.json();
     console.log('[API] JSON ->', json);
@@ -83,8 +78,7 @@ export const api = {
   register: (data) => request('/auth/register', { method: 'POST', body: data }),
   login: (data) => request('/auth/login', { method: 'POST', body: data }),
   me: () => request('/me', { auth: true }),
-
-  // projects
+  
   listProjects: (opts = {}) => request('/projects', { auth: true, ...opts }),
   createProject: (data, opts = {}) => request('/projects', { method: 'POST', body: data, auth: true, ...opts }),
   updateProject: (id, data, opts = {}) => request(`/projects/${id}`, { method: 'PUT', body: data, auth: true, ...opts }),

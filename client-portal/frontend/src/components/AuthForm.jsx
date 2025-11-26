@@ -32,24 +32,24 @@ export default function AuthForm({ onAuth }) {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-brand-purpleLight">
-      <div className="w-full max-w-md bg-white rounded-lg shadow p-8">
-        <h1 className="text-2xl font-bold text-brand-purpleDark mb-6 text-center">
-          {mode === 'login' ? 'Login' : 'Register'}
+    <div className="flex items-center justify-center min-h-screen bg-bg text-text">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 dark:bg-gray-900 dark:text-gray-100">
+        <h1 className="text-3xl font-bold text-primary mb-6 text-center tracking-tight">
+          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
         </h1>
 
         {error && (
-          <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-center">
+          <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4 text-center font-medium dark:bg-red-900 dark:text-red-300">
             {error}
           </div>
         )}
 
-        <form onSubmit={submit} className="space-y-4">
+        <form onSubmit={submit} className="space-y-5">
           {mode === 'register' && (
             <div>
-              <label className="block text-sm font-medium text-brand-purpleDark">Name</label>
+              <label className="block text-sm font-medium mb-1">Name</label>
               <input
-                className="w-full border border-brand-purpleDark/20 rounded p-2 focus:ring-2 focus:ring-brand-purpleDark"
+                className="input"
                 value={form.name}
                 onChange={e => setForm({ ...form, name: e.target.value })}
                 autoComplete="name"
@@ -58,10 +58,10 @@ export default function AuthForm({ onAuth }) {
             </div>
           )}
           <div>
-            <label className="block text-sm font-medium text-brand-purpleDark">Email</label>
+            <label className="block text-sm font-medium mb-1">Email</label>
             <input
               type="email"
-              className="w-full border border-brand-purpleDark/20 rounded p-2 focus:ring-2 focus:ring-brand-purpleDark"
+              className="input"
               value={form.email}
               onChange={e => setForm({ ...form, email: e.target.value })}
               autoComplete="email"
@@ -69,10 +69,10 @@ export default function AuthForm({ onAuth }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-brand-purpleDark">Password</label>
+            <label className="block text-sm font-medium mb-1">Password</label>
             <input
               type="password"
-              className="w-full border border-brand-purpleDark/20 rounded p-2 focus:ring-2 focus:ring-brand-purpleDark"
+              className="input"
               value={form.password}
               onChange={e => setForm({ ...form, password: e.target.value })}
               autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
@@ -80,24 +80,25 @@ export default function AuthForm({ onAuth }) {
             />
           </div>
           <button
-            className="w-full bg-brand-peach text-brand-purpleDark font-semibold rounded p-2 hover:bg-brand-peachHover transition disabled:opacity-50"
+            type="submit"
+            className="btn-primary w-full"
             disabled={submitting}
           >
-            {submitting ? "Please wait..." : "Submit"}
+            {submitting ? "Please wait..." : mode === 'login' ? "Login" : "Register"}
           </button>
         </form>
 
         <div className="mt-6 text-sm text-center">
           {mode === 'login' ? (
             <button
-              className="text-brand-purpleDark hover:underline"
+              className="text-primary hover:underline font-medium"
               onClick={() => setMode('register')}
             >
               Need an account? Register
             </button>
           ) : (
             <button
-              className="text-brand-purpleDark hover:underline"
+              className="text-primary hover:underline font-medium"
               onClick={() => setMode('login')}
             >
               Have an account? Login

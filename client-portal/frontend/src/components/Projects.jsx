@@ -32,22 +32,28 @@ function ProjectForm({ initial, onSubmit, onCancel }) {
       return;
     }
     setSubmitting(true);
-    await onSubmit({ title, status, deadline: deadline || null });
-    setSubmitting(false);
+    try {
+      await onSubmit({ title, status, deadline: deadline || null });
+      toast.success("Saved!");
+    } catch (err) {
+      toast.error("Failed to save project");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <input
-          className="border border-brand-purpleDark/20 rounded p-2 focus:ring-2 focus:ring-brand-purpleDark"
-          placeholder="Title"
+          className="input"
+          placeholder="Project title"
           value={title}
           onChange={e => setTitle(e.target.value)}
           required
         />
         <select
-          className="border border-brand-purpleDark/20 rounded p-2 focus:ring-2 focus:ring-brand-purpleDark"
+          className="input"
           value={status}
           onChange={e => setStatus(e.target.value)}
         >
@@ -57,14 +63,15 @@ function ProjectForm({ initial, onSubmit, onCancel }) {
         </select>
         <input
           type="date"
-          className="border border-brand-purpleDark/20 rounded p-2 focus:ring-2 focus:ring-brand-purpleDark"
+          className="input"
           value={deadline || ''}
           onChange={e => setDeadline(e.target.value)}
         />
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         <button
-          className="bg-brand-peach hover:bg-brand-peachHover text-brand-purpleDark font-semibold px-3 py-2 rounded transition disabled:opacity-50"
+          type="submit"
+          className="btn-primary"
           disabled={submitting}
         >
           {submitting ? "Saving..." : "Save"}
@@ -72,7 +79,7 @@ function ProjectForm({ initial, onSubmit, onCancel }) {
         {onCancel && (
           <button
             type="button"
-            className="bg-gray-200 px-3 py-2 rounded hover:bg-gray-300"
+            className="bg-gray-200 px-3 py-2 rounded hover:bg-gray-300 transition"
             onClick={onCancel}
           >
             Cancel
@@ -133,9 +140,9 @@ export default function Projects() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="bg-white p-4 rounded shadow">
-        <h3 className="font-semibold text-brand-purpleDark mb-2">Add new project</h3>
+    <div className="space-y-6">
+      <div className="card">
+        <h3 className="text-xl font-semibold text-primary mb-4">Add new project</h3>
         <ProjectForm onSubmit={create} />
       </div>
 
@@ -144,9 +151,9 @@ export default function Projects() {
       ) : items.length === 0 ? (
         <p className="text-gray-500 text-center">No projects yet. Start by creating one!</p>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-4">
           {items.map(p => (
-            <li key={p.id} className="border rounded p-3 bg-white shadow-sm">
+            <li key={p.id} className="card">
               {editing === p.id ? (
                 <ProjectForm
                   initial={p}
@@ -156,7 +163,7 @@ export default function Projects() {
               ) : (
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-semibold text-brand-purpleDark">{p.title}</div>
+                    <div className="font-semibold text-primary">{p.title}</div>
                     <div className="text-sm text-gray-600 flex gap-2 items-center">
                       <StatusBadge status={p.status} />
                       {p.deadline && <span>Deadline: {p.deadline}</span>}
@@ -164,13 +171,13 @@ export default function Projects() {
                   </div>
                   <div className="flex gap-2">
                     <button
-                      className="bg-gray-200 px-3 py-2 rounded hover:bg-gray-300"
+                      className="bg-gray-200 px-3 py-2 rounded hover:bg-gray-300 transition"
                       onClick={() => setEditing(p.id)}
                     >
                       Edit
                     </button>
                     <button
-                      className="bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700"
+                      className="bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 transition"
                       onClick={() => remove(p.id)}
                     >
                       Delete

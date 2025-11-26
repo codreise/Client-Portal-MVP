@@ -1,6 +1,5 @@
-// backend/src/routes/projects.js
 import { Router } from 'express';
-import { pool } from '../db.js';
+import pool from '../db.js';
 import { authRequired } from '../middleware/auth.js';
 
 const router = Router();

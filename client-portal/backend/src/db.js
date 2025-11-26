@@ -1,17 +1,17 @@
 import pkg from 'pg';
 const { Pool } = pkg;
 
-const pool = new Pool({
+// Пул підключень до Postgres
+export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: false // у Docker Postgres SSL не потрібен
 });
 
+// Перевірка з’єднання з базою
 export async function ping() {
   try {
-    const result = await pool.query('SELECT NOW()');
-    return result.rows[0];
+    const res = await pool.query('SELECT NOW()');
+    return res.rows[0].now;
   } catch (err) {
     console.error('❌ DB ping error:', err);
     throw err;

@@ -5,16 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        brand: {
-          purpleLight: "#F3E8FF",   // фон (світло‑фіолетовий)
-          purpleDark: "#4C1D95",    // заголовки, текст
-          peach: "#FDBA74",         // кнопки (Create, Log out)
-          peachHover: "#FB923C",    // hover для кнопок
-        },
-      },
-    },
+  extend: {
+  colors: {
+    primary: "#646cff",       
+    secondary: "#61dafb",     
+    accent: "#ff9800",        
+    bg: "#f4f6fb",          
+    card: "#ffffff",          
+    text: "#333333",
+    error: "#dc2626",
   },
+}
+},
   plugins: [],
 }
