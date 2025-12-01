@@ -82,3 +82,41 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Інпути */
+input, textarea {
+  width: 100%;
+  padding: 0.75em 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  background: var(--color-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+/* Плейсхолдери */
+input::placeholder, textarea::placeholder {
+  color: #888;
+  opacity: 1; /* щоб завжди було видно */
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.3);
+}
+
+/* Темна тема */
+@media (prefers-color-scheme: dark) {
+  input, textarea {
+    background: #1f2937;   /* темно-сірий фон */
+    color: #f9fafb;        /* світлий текст */
+    border: 1px solid #374151;
+  }
+  input::placeholder, textarea::placeholder {
+    color: #9ca3af; /* світло-сірий плейсхолдер */
+  }
+}

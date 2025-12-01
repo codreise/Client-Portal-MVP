@@ -6,9 +6,9 @@ services:
     container_name: clientportal_db
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-strong_password_here}
-      POSTGRES_DB: ${DB_NAME:-clientportal}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: strong_password_here
+      POSTGRES_DB: clientportal
     ports:
       - "5432:5432"
     healthcheck:

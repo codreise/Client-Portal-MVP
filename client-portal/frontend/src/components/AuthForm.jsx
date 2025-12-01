@@ -14,11 +14,15 @@ export default function AuthForm({ onAuth }) {
     setSubmitting(true);
     try {
       if (mode === 'login') {
-        const { token, user } = await api.login({ email: form.email, password: form.password });
-        onAuth(token, user);
+        const { token } = await api.login({ email: form.email, password: form.password });
+        onAuth(token, { email: form.email });
         toast.success("Login successful!");
       } else {
-        const { token, user } = await api.register({ name: form.name, email: form.email, password: form.password });
+        const { token, user } = await api.register({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+        });
         onAuth(token, user);
         toast.success("Registration successful!");
       }
@@ -33,7 +37,7 @@ export default function AuthForm({ onAuth }) {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-bg text-text">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 dark:bg-gray-900 dark:text-gray-100">
+      <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8">
         <h1 className="text-3xl font-bold text-primary mb-6 text-center tracking-tight">
           {mode === 'login' ? 'Welcome Back' : 'Create Account'}
         </h1>
@@ -49,6 +53,7 @@ export default function AuthForm({ onAuth }) {
             <div>
               <label className="block text-sm font-medium mb-1">Name</label>
               <input
+                type="text"
                 className="input"
                 value={form.name}
                 onChange={e => setForm({ ...form, name: e.target.value })}
@@ -91,6 +96,7 @@ export default function AuthForm({ onAuth }) {
         <div className="mt-6 text-sm text-center">
           {mode === 'login' ? (
             <button
+              type="button"
               className="text-primary hover:underline font-medium"
               onClick={() => setMode('register')}
             >
@@ -98,6 +104,7 @@ export default function AuthForm({ onAuth }) {
             </button>
           ) : (
             <button
+              type="button"
               className="text-primary hover:underline font-medium"
               onClick={() => setMode('login')}
             >
